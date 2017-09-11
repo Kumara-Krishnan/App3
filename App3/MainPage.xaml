@@ -6,8 +6,40 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+    <Page.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="PersonTemplate" x:DataType="local:Person">
+                <Grid Margin="12" Background="{x:Bind GetBackground(IsSelected),Mode=OneWay}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock x:Name="Title" Text="{x:Bind Name,Mode=OneWay}"
+                               HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                    <TextBlock x:Name="Desc" Grid.Row="1" Text="{x:Bind Desc,Mode=OneWay}"
+                               HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                               TextWrapping="Wrap" MaxLines="2"/>
+                </Grid>
+            </DataTemplate>
+        </ResourceDictionary>
+    </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid MaxWidth="500" Margin="0,30,0,0" HorizontalAlignment="Center" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Button x:Name="Click" HorizontalAlignment="Stretch" VerticalAlignment="Center" Content="ClickMe" Click="Click_Click"/>
+        <ListView x:Name="PersonView" Grid.Row="1" Loaded="PersonView_Loaded"
+                  ItemsSource="{x:Bind Persons,Mode=OneWay}"
+                  HorizontalAlignment="Center" VerticalAlignment="Stretch" 
+                  ItemTemplate="{StaticResource PersonTemplate}">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ItemsStackPanel ItemsUpdatingScrollMode="KeepItemsInView"/>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+        </ListView>
 
     </Grid>
 </Page>
